@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-3">Trash</h2>
+
+<div class="row">
+    {% for note in notes %}
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm border-danger">
+            <div class="card-body">
+                <h5 class="card-title">{{ note.title }}</h5>
+                <p class="card-text">{{ note.content|truncatewords:15 }}</p>
+
+                <a href="{% url 'restore_note' note.id %}" class="btn btn-sm btn-primary">Restore</a>
+                <a href="{% url 'delete_permanently' note.id %}" class="btn btn-sm btn-danger">Delete Forever</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-muted">Trash is empty.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

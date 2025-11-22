@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 class="mb-3">Your Notes</h2>
+
+<form method="GET" class="mb-3">
+    <input type="text" name="search" value="{{ search_query }}" placeholder="Search notes..."
+           class="form-control">
+</form>
+
+<div class="row">
+    {% for note in notes %}
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm" style="border-left: 6px solid {{ note.color }};">
+            <div class="card-body">
+                <h5 class="card-title d-flex justify-content-between">
+                    {{ note.title }}
+                    {% if note.pinned %}
+                        <span class="badge bg-warning text-dark">Pinned</span>
+                    {% endif %}
+                </h5>
+
+                <p class="card-text text-muted">{{ note.content|truncatewords:20 }}</p>
+
+                <a href="{% url 'edit_note' note.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'delete_note' note.id %}" class="btn btn-sm btn-danger">Delete</a>
+                <a href="{% url 'toggle_pin' note.id %}" class="btn btn-sm btn-secondary">Pin/Unpin</a>
+                <a href="{% url 'archive_note' note.id %}" class="btn btn-sm btn-info text-white">Archive</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <p class="text-muted">No notes found.</p>
+    {% endfor %}
+</div>
+
+{% endblock %}
